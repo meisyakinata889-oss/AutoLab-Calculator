@@ -1,0 +1,290 @@
+/* ===== WARNA DAN DASAR HALAMAN ===== */
+:root {
+    --background: #07111f;
+    --panel: #101e30;
+    --panel-light: #16283c;
+    --green: #42e8b4;
+    --green-dark: #19b88b;
+    --text: #e8f1f7;
+    --muted: #a8bbca;
+    --border: #294258;
+    --danger: #ff8585;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 30px 16px;
+    background: var(--background);
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+/* ===== JUDUL ===== */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 22px 12px;
+}
+
+header h1 {
+    margin: 0 0 8px;
+    color: var(--green);
+    font-size: clamp(28px, 5vw, 38px);
+    letter-spacing: 0.5px;
+}
+
+header p {
+    margin: 0;
+    color: var(--muted);
+}
+
+/* ===== KARTU ===== */
+.card {
+    margin-bottom: 24px;
+    padding: 25px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+.card h2 {
+    margin: 0 0 16px;
+    color: var(--green);
+    font-size: 22px;
+}
+
+.card h3 {
+    color: var(--green);
+}
+
+.card > p {
+    color: var(--muted);
+}
+
+/* ===== FORM DAN INPUT ===== */
+form {
+    margin-top: 18px;
+}
+
+label {
+    display: block;
+    margin: 16px 0 7px;
+    color: var(--green);
+    font-weight: 600;
+}
+
+input,
+select {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 13px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #091625;
+    color: var(--text);
+    font: inherit;
+    outline: none;
+}
+
+input::placeholder {
+    color: #8296a8;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px #42e8b420;
+}
+
+select option {
+    background: var(--panel);
+    color: var(--text);
+}
+
+/* ===== TOMBOL ===== */
+button {
+    display: inline-block;
+    width: 100%;
+    min-height: 45px;
+    margin-top: 16px;
+    padding: 11px 16px;
+    border: none;
+    border-radius: 9px;
+    background: var(--green);
+    color: #062019;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: var(--green-dark);
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+button.secondary {
+    background: var(--panel-light);
+    color: var(--green);
+    border: 1px solid var(--border);
+}
+
+/* ===== HASIL PERHITUNGAN ===== */
+.result {
+    margin-top: 22px;
+    padding: 20px;
+    border: 1px solid var(--green-dark);
+    border-radius: 12px;
+    background: #0b2b2a;
+    overflow-wrap: anywhere;
+}
+
+.result h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.result p {
+    margin: 8px 0;
+    color: var(--text);
+}
+
+.result p strong {
+    color: var(--green);
+    font-size: 24px;
+}
+
+.formula {
+    color: var(--green) !important;
+    font-family: Consolas, monospace;
+}
+
+/* ===== PANDUAN RUMUS ===== */
+.formula-info {
+    margin-top: 22px;
+    padding: 16px;
+    border-left: 3px solid var(--green);
+    border-radius: 8px;
+    background: var(--panel-light);
+}
+
+.formula-info h3 {
+    margin: 0 0 10px;
+    font-size: 17px;
+}
+
+.formula-info p {
+    margin: 8px 0;
+    color: var(--muted);
+}
+
+.formula-info strong {
+    color: var(--green);
+}
+
+/* ===== PESAN ERROR ===== */
+.error {
+    margin-top: 18px;
+    padding: 12px 15px;
+    border: 1px solid #743c48;
+    border-radius: 9px;
+    background: #351d29;
+    color: var(--danger);
+}
+
+/* ===== RIWAYAT ===== */
+.history-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.history-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--panel-light);
+    overflow-wrap: anywhere;
+}
+
+.history-list li span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.history-list li strong {
+    color: var(--green);
+}
+
+/* ===== PANDUAN SATUAN ===== */
+.unit-guide {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.unit-guide p {
+    margin: 0;
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--panel-light);
+    color: var(--muted);
+}
+
+.unit-guide strong {
+    color: var(--green);
+}
+
+/* ===== BAGIAN BAWAH ===== */
+footer {
+    padding: 12px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* ===== TAMPILAN HP ===== */
+@media (max-width: 520px) {
+    body {
+        padding: 14px 10px;
+    }
+
+    header {
+        margin-bottom: 18px;
+        padding: 18px 5px;
+    }
+
+    .card {
+        padding: 18px;
+        margin-bottom: 16px;
+    }
+
+    .card h2 {
+        font-size: 20px;
+    }
+
+    .unit-guide {
+        grid-template-columns: 1fr;
+    }
+}
