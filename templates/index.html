@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoLab Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>AutoLab Calculator</h1>
+            <p>Kalkulator konversi satuan dan rumus dasar listrik</p>
+        </header>
+
+        <section class="card">
+            <h2>Konversi Satuan</h2>
+
+            <form method="GET" action="/">
+                <label for="kategori">Pilih besaran listrik</label>
+                <select id="kategori" name="kategori">
+                    <option value="arus" {% if kategori == 'arus' %}selected{% endif %}>Arus Listrik</option>
+                    <option value="tegangan" {% if kategori == 'tegangan' %}selected{% endif %}>Tegangan</option>
+                    <option value="resistansi" {% if kategori == 'resistansi' %}selected{% endif %}>Resistansi</option>
+                    <option value="frekuensi" {% if kategori == 'frekuensi' %}selected{% endif %}>Frekuensi</option>
+                    <option value="daya" {% if kategori == 'daya' %}selected{% endif %}>Daya Listrik</option>
+                    <option value="energi" {% if kategori == 'energi' %}selected{% endif %}>Energi</option>
+                    <option value="kapasitansi" {% if kategori == 'kapasitansi' %}selected{% endif %}>Kapasitansi</option>
+                </select>
+                <button type="submit">Tampilkan Satuan</button>
+            </form>
+
+            <form method="POST" action="/">
+                <input type="hidden" name="kategori" value="{{ kategori }}">
+
+                <label for="arah">Pilih konversi</label>
+                <select id="arah" name="arah">
+                    {% for pilihan in pilihan_arah %}
+                    <option value="{{ pilihan }}" {% if arah == pilihan %}selected{% endif %}>
+                        {{ pilihan }}
+                    </option>
+                    {% endfor %}
+                </select>
+
+                <label for="nilai">Nilai yang dikonversi</label>
+                <input type="number" step="any" id="nilai" name="nilai"
+                       value="{{ nilai_input }}" placeholder="Masukkan angka" required>
+
+                <button type="submit">Hitung Konversi</button>
+            </form>
+
+            {% if hasil %}
+            <div class="result">
+                <h3>Hasil Konversi</h3>
+                <p class="formula">{{ hasil.rumus }}</p>
+                <p><strong>{{ hasil.nilai }} {{ hasil.akhir }}</strong></p>
+            </div>
+            {% endif %}
+
+            {% if error %}
+            <p class="error">{{ error }}</p>
+            {% endif %}
+        </section>
+
+        <section class="card">
+            <h2>Kalkulator Rumus Listrik</h2>
+            <p>Gunakan rumus dasar listrik untuk mencari besaran yang belum diketahui.</p>
+
+            <form method="POST" action="/hitung-rumus">
+                <label for="rumus_aktif">Pilih rumus</label>
+                <select id="rumus_aktif" name="rumus_aktif">
+                    {% for kode, rumus in rumus_listrik.items() %}
+                    <option value="{{ kode }}" {% if rumus_aktif == kode %}selected{% endif %}>
+                        {{ rumus.label }}
+                    </option>
+                    {% endfor %}
+                </select>
+
+                <label for="besaran_dicari">Besaran yang ingin dicari</label>
+                <select id="besaran_dicari" name="besaran_dicari">
+                    {% for kode, label in rumus_listrik[rumus_aktif].pilihan.items() %}
+                    <option value="{{ kode }}" {% if besaran_dicari == kode %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                    {% endfor %}
+                </select>
+
+                <div class="formula-info">
+                    <h3>Panduan Rumus</h3>
+                    <p><strong>Hukum Ohm:</strong> V = I × R, I = V / R, R = V / I</p>
+                    <p><strong>Daya:</strong> P = V × I, V = P / I, I = P / V</p>
+                    <p><strong>Energi:</strong> E = P × t, P = E / t, t = E / P</p>
+                </div>
+
+                <label for="nilai1">{{ label1 }}</label>
+                <input type="number" step="any" id="nilai1" name="nilai1"
+                       value="{{ nilai1 }}" placeholder="Masukkan {{ label1 }}" required>
+
+                <label for="nilai2">{{ label2 }}</label>
+                <input type="number" step="any" id="nilai2" name="nilai2"
+                       value="{{ nilai2 }}" placeholder="Masukkan {{ label2 }}" required>
+
+                <button type="submit">Hitung Rumus</button>
+            </form>
+
+            {% if hasil_rumus %}
+            <div class="result">
+                <h3>Hasil Perhitungan</h3>
+                <p>{{ hasil_rumus.persamaan }}</p>
+                <p><strong>{{ hasil_rumus.nilai }} {{ hasil_rumus.satuan }}</strong></p>
+            </div>
+            {% endif %}
+
+            {% if error_rumus %}
+            <p class="error">{{ error_rumus }}</p>
+            {% endif %}
+        </section>
+
+        <section class="card">
+            <h2>Riwayat Konversi</h2>
+
+            {% if riwayat %}
+            <ul class="history-list">
+                {% for item in riwayat %}
+                <li>
+                    <span>{{ item.kategori }}</span>
+                    <strong>
+                        {{ item.nilai }} {{ item.awal }}
+                        → {{ item.hasil }} {{ item.akhir }}
+                    </strong>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <form method="POST" action="/hapus-riwayat">
+                <button type="submit" class="secondary">Hapus Riwayat</button>
+            </form>
+            {% else %}
+            <p>Belum ada riwayat konversi.</p>
+            {% endif %}
+        </section>
+
+        <section class="card">
+            <h2>Panduan Satuan</h2>
+            <div class="unit-guide">
+                <p><strong>Arus:</strong> 1 A = 1000 mA</p>
+                <p><strong>Tegangan:</strong> 1 V = 1000 mV</p>
+                <p><strong>Resistansi:</strong> 1 kΩ = 1000 Ω</p>
+                <p><strong>Frekuensi:</strong> 1 kHz = 1000 Hz</p>
+                <p><strong>Daya:</strong> 1 kW = 1000 W</p>
+                <p><strong>Energi:</strong> 1 kWh = 1000 Wh</p>
+                <p><strong>Kapasitansi:</strong> 1 µF = 1000 nF</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>AutoLab Calculator · Alat bantu perhitungan listrik</p>
+        </footer>
+    </main>
+</body>
+</html>
